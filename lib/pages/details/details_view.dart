@@ -54,7 +54,7 @@ class DetailsView extends StatelessWidget {
               ),
             ];
           },
-          body: Column(
+          body: ListView(
             children: <Widget>[
               ListTile(
                 leading: CircleAvatar(
@@ -278,28 +278,31 @@ class DetailsView extends StatelessWidget {
               BlocProvider<HomeBloc>(
                 create: (context) => HomeBloc()
                   ..add(HomeEvent(type: HomeEventType.loadAllProducts)),
-                child: Expanded(child:
+                child:
                     BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 19.0),
-                    child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: List.generate(
-                          state.products.length,
-                          (i) {
-                            return ProductCard(
-                              product: state.products[i],
-                              productClicked: (Product product) async {
-                                await Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            DetailsView(product: product)));
-                              },
-                            );
-                          },
-                        )),
+                  return SizedBox(
+                    height: 280,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 19.0),
+                      child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: List.generate(
+                            state.products.length,
+                            (i) {
+                              return ProductCard(
+                                product: state.products[i],
+                                productClicked: (Product product) async {
+                                  await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DetailsView(product: product)));
+                                },
+                              );
+                            },
+                          )),
+                    ),
                   );
-                })),
+                }),
               ),
             ],
           ),
